@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StockMind - Controle de Estoque</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0b1120;
+  --card:#111827;
+  --card-2:#1f2937;
+  --border:rgba(255,255,255,.08);
+  --text:#f8fafc;
+  --muted:#94a3b8;
+  --primary:#3b82f6;
+  --success:#22c55e;
+  --warning:#f59e0b;
+  --danger:#ef4444;
+  --radius:18px;
+}
+body{
+  font-family:'Inter',sans-serif;
+  background:linear-gradient(135deg,#020617,#0f172a 55%,#1e3a8a);
+  color:var(--text);
+  min-height:100vh;
+}
+.hidden{display:none!important}
+button,input,select{font:inherit}
+
+/* LOGIN */
+.login-screen{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+}
+.login-card{
+  width:100%;max-width:420px;
+  background:rgba(17,24,39,.95);
+  border:1px solid var(--border);
+  border-radius:28px;
+  padding:36px;
+  backdrop-filter:blur(12px);
+  box-shadow:0 20px 60px rgba(0,0,0,.45);
+}
+.brand{
+  display:flex;align-items:center;gap:14px;margin-bottom:28px;
+}
+.brand-icon{
+  width:56px;height:56px;border-radius:18px;
+  background:linear-gradient(135deg,#2563eb,#60a5fa);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;
+}
+.brand h1{font-size:1.6rem;font-weight:800}
+.brand p{font-size:.85rem;color:var(--muted)}
+.input-group{margin-bottom:16px}
+.input-group label{display:block;margin-bottom:8px;font-size:.9rem;color:var(--muted)}
+.input,select{
+  width:100%;padding:14px 16px;border-radius:14px;
+  border:1px solid var(--border);
+  background:#0f172a;color:var(--text);
+}
+.btn{
+  border:none;border-radius:14px;padding:14px 18px;
+    barcode: getInput('barcode').trim(    barcode: getInput('barcode').trim(),
+    supplier: getInput('supplier').trim(),
+    expiry: getInput('expiry'),
+    quantity: Number(getInput('quantity') || 0),
+    minStock: Number(getInput('minStock') || 0),
+    cost: Number(getInput('cost') || 0),
+    price: Number(getInput('price') || 0)
+  };
+
+  if (!product.name) {
+    alert('Informe o nome do produto.');
+    return;
+  }
+
+  const index = products.findIndex(p => p.id === product.id);
+
+  if (index >= 0) {
+    products[index] = product;
+  } else {
+    products.push(product);
+  }
+
+  saveProducts();
+  resetForm();
+  render();
+}
+
+function editProduct(id) {
+  const p = products.find(item => item.id === id);
+  if (!p) return;
+
+  for (const key of [
+    'productId',
+    'name',
+    'category',
+    'barcode',
+    'supplier',
+    'expiry',
+    'quantity',
+    'minStock',
+    'cost',
+    'price'
+  ]) {
+    const field = document.getElementById(key);
+    if (!field) continue;
+    field.value = key === 'productId' ? p.id : (p[key] ?? '');
+  }
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function deleteProduct(id) {
+  if (!confirm('Deseja excluir este produto?')) return;
+
+  products = products.filter(p => p.id !== id);
+  saveProducts();
+  render();
+}
+
+function resetForm() {
+  [
+    'productId',
+    'name',
+    'category',
+    'barcode',
+    'supplier',
+    'expiry',
+    'quantity',
+    'minStock',
+    'cost',
+    'price'
+  ].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+}
+
+function daysUntil(dateStr) {
+  if (!dateStr) return null;
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const date = new Date(dateStr + 'T00:00:00');
+
+  return Math.ceil((date - today) / 86400000);
+}
+
+function getStatus(product) {
+  const days = daysUntil(product.expiry);
+
+  if (days !== null && days <= 30) {
+    return {
+      text: days < 0 ? 'Vencido' : 'Vencendo',
+      class: 'expired'
+    };
+  }
+
+  if (product.quantity <= product.minStock) {
+    return {
+      text: 'Baixo',
+      class: 'low'
+    };
+  }
+
+  return {
+    text: 'Normal',
+    class: 'ok'
+  };
+}
+
+function formatCurrency(value) {
+  return value.toLocaleString('pt-BR', {
+    style: 'currency',
+    currency: 'BRL'
+  });
+}
+
+function render() {
+  const tbody = document.getElementById('productTable');
+  const search = document.getElementById('search').value.toLowerCase();
+  const filter = document.getElementById('filterStatus').value;
+
+  let filtered = products.filter(p => {
+    const text = `${p.name} ${p.category} ${p.supplier}`.toLowerCase();
+    return text.includes(search);
+  });
+
+  if (filter !== 'all') {
+    filtered = filtered.filter(p => getStatus(p).class === filter);
+  }
+
+  tbody.innerHTML = filtered.map(p => {
+    const status = getStatus(p);
+
+    return `
+      <tr>
+        <td>
+          <strong>${escapeHtml(p.name)}</strong><br>
+          <small style="color:#94a3b8">
+            ${escapeHtml(p.category || 'Sem categoria')}
+          </small>
+        </td>
+        <td>${p.quantity}</td>
+        <td>
+          <span class="badge ${status.class}">
+            ${status.text}
+          </span>
+        </td>
+        <td>${escapeHtml(p.supplier || '-')}</td>
+        <td>${formatCurrency(p.quantity * p.cost)}</td>
+        <td>
+          <button class="icon-btn" onclick="editProduct('${p.id}')">
+            <i class="fas fa-pen"></i>
+          </button>
+          <button class="icon-btn" onclick="deleteProduct('${p.id}')">
+            <i class="fas fa-trash"></i>
+          </button>
+        </td>
+      </tr>
+    `;
+  }).join('');
+
+  updateStats();
+  updateAlerts();
+}
+
+function updateStats() {
+  const total = products.length;
+
+  const low = products.filter(
+    p => p.quantity <= p.minStock
+  ).length;
+
+  const expiry = products.filter(p => {
+    const d = daysUntil(p.expiry);
+    return d !== null && d <= 30;
+  }).length;
+
+  const value = products.reduce(
+    (sum, p) => sum + (p.quantity * p.cost),
+    0
+  );
+
+  document.getElementById('statTotal').textContent = total;
+  document.getElementById('statLow').textContent = low;
+  document.getElementById('statExpiry').textContent = expiry;
+  document.getElementById('statValue').textContent = formatCurrency(value);
+}
+
+function updateAlerts() {
+  const alerts = [];
+
+  const low = products.filter(
+    p => p.quantity <= p.minStock
+  ).length;
+
+  const exp = products.filter(p => {
+    const d = daysUntil(p.expiry);
+    return d !== null && d <= 30;
+  }).length;
+
+  if (low > 0) {
+    alerts.push(`
+      <div class="alert warning">
+        ${low} produto(s) abaixo do estoque mínimo.
+      </div>
+    `);
+  }
+
+  if (exp > 0) {
+    alerts.push(`
+      <div class="alert danger">
+        ${exp} produto(s) vencidos ou próximos do vencimento.
+      </div>
+    `);
+  }
+
+  if (alerts.length === 0) {
+    alerts.push(`
+      <div class="alert success">
+        Nenhum alerta crítico no momento.
+      </div>
+    `);
+  }
+
+  document.getElementById('alerts').innerHTML = alerts.join('');
+}
+
+function exportData() {
+  const blob = new Blob(
+    [JSON.stringify(products, null, 2)],
+    { type: 'application/json' }
+  );
+
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'estoque.json';
+  a.click();
+
+  URL.revokeObjectURL(a.href);
+}
+
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+// Eventos
+document.getElementById('search').addEventListener('input', render);
+document.getElementById('filterStatus').addEventListener('change', render);
+
+document.getElementById('loginPass').addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    login();
+  }
+});
+
+// Verifica se já está autenticado
+if (sessionStorage.getItem('stockmind-auth') === '1') {
+  showApp();
+}
+  </script>
+</body>
+</html>
