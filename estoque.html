@@ -1,340 +1,251 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>StockMind - Controle de Estoque</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockMind - Controle de Estoque</title>
 
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --bg:#0b1120;
-  --card:#111827;
-  --card-2:#1f2937;
-  --border:rgba(255,255,255,.08);
-  --text:#f8fafc;
-  --muted:#94a3b8;
-  --primary:#3b82f6;
-  --success:#22c55e;
-  --warning:#f59e0b;
-  --danger:#ef4444;
-  --radius:18px;
-}
-body{
-  font-family:'Inter',sans-serif;
-  background:linear-gradient(135deg,#020617,#0f172a 55%,#1e3a8a);
-  color:var(--text);
-  min-height:100vh;
-}
-.hidden{display:none!important}
-button,input,select{font:inherit}
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-/* LOGIN */
-.login-screen{
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:24px;
-}
-.login-card{
-  width:100%;max-width:420px;
-  background:rgba(17,24,39,.95);
-  border:1px solid var(--border);
-  border-radius:28px;
-  padding:36px;
-  backdrop-filter:blur(12px);
-  box-shadow:0 20px 60px rgba(0,0,0,.45);
-}
-.brand{
-  display:flex;align-items:center;gap:14px;margin-bottom:28px;
-}
-.brand-icon{
-  width:56px;height:56px;border-radius:18px;
-  background:linear-gradient(135deg,#2563eb,#60a5fa);
-  display:flex;align-items:center;justify-content:center;
-  font-size:1.4rem;
-}
-.brand h1{font-size:1.6rem;font-weight:800}
-.brand p{font-size:.85rem;color:var(--muted)}
-.input-group{margin-bottom:16px}
-.input-group label{display:block;margin-bottom:8px;font-size:.9rem;color:var(--muted)}
-.input,select{
-  width:100%;padding:14px 16px;border-radius:14px;
-  border:1px solid var(--border);
-  background:#0f172a;color:var(--text);
-}
-.btn{
-  border:none;border-radius:14px;padding:14px 18px;
-    barcode: getInput('barcode').trim(    barcode: getInput('barcode').trim(),
-    supplier: getInput('supplier').trim(),
-    expiry: getInput('expiry'),
-    quantity: Number(getInput('quantity') || 0),
-    minStock: Number(getInput('minStock') || 0),
-    cost: Number(getInput('cost') || 0),
-    price: Number(getInput('price') || 0)
-  };
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-  if (!product.name) {
-    alert('Informe o nome do produto.');
-    return;
-  }
+    <!-- Seu CSS -->
+    <link rel="stylesheet" href="estoque.css">
+</head>
+<body>
 
-  const index = products.findIndex(p => p.id === product.id);
+    <!-- ========================================= -->
+    <!-- TELA DE LOGIN -->
+    <!-- ========================================= -->
+    <section id="loginScreen" class="login-screen">
+        <div class="login-card">
 
-  if (index >= 0) {
-    products[index] = product;
-  } else {
-    products.push(product);
-  }
+            <div class="brand">
+                <div class="brand-icon">
+                    <i class="fas fa-boxes-stacked"></i>
+                </div>
 
-  saveProducts();
-  resetForm();
-  render();
-}
+                <div>
+                    <h1>StockMind</h1>
+                    <p>Controle de Estoque</p>
+                </div>
+            </div>
 
-function editProduct(id) {
-  const p = products.find(item => item.id === id);
-  if (!p) return;
+            <div class="input-group">
+                <label for="loginUser">Usuário</label>
+                <input
+                    type="text"
+                    id="loginUser"
+                    placeholder="Digite seu usuário"
+                >
+            </div>
 
-  for (const key of [
-    'productId',
-    'name',
-    'category',
-    'barcode',
-    'supplier',
-    'expiry',
-    'quantity',
-    'minStock',
-    'cost',
-    'price'
-  ]) {
-    const field = document.getElementById(key);
-    if (!field) continue;
-    field.value = key === 'productId' ? p.id : (p[key] ?? '');
-  }
+            <div class="input-group">
+                <label for="loginPass">Senha</label>
+                <input
+                    type="password"
+                    id="loginPass"
+                    placeholder="Digite sua senha"
+                >
+            </div>
 
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
+            <button class="btn btn-primary" onclick="login()">
+                Entrar
+            </button>
 
-function deleteProduct(id) {
-  if (!confirm('Deseja excluir este produto?')) return;
+            <div id="loginError" class="error"></div>
 
-  products = products.filter(p => p.id !== id);
-  saveProducts();
-  render();
-}
+            <div class="login-hint">
+                Usuário: <strong>admin</strong> |
+                Senha: <strong>senha</strong>
+            </div>
+        </div>
+    </section>
 
-function resetForm() {
-  [
-    'productId',
-    'name',
-    'category',
-    'barcode',
-    'supplier',
-    'expiry',
-    'quantity',
-    'minStock',
-    'cost',
-    'price'
-  ].forEach(id => {
-    document.getElementById(id).value = '';
-  });
-}
+    <!-- ========================================= -->
+    <!-- APLICAÇÃO -->
+    <!-- ========================================= -->
+    <section id="app" class="app hidden">
 
-function daysUntil(dateStr) {
-  if (!dateStr) return null;
+        <!-- TOPO -->
+        <header class="topbar">
+            <div>
+                <h2>Controle de Estoque</h2>
+                <p>Cadastro, alertas, filtros e histórico local.</p>
+            </div>
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+            <div class="actions">
+                <button class="btn btn-secondary" onclick="exportData()">
+                    <i class="fas fa-file-export"></i>
+                    Exportar JSON
+                </button>
 
-  const date = new Date(dateStr + 'T00:00:00');
+                <button class="btn btn-danger" onclick="logout()">
+                    <i class="fas fa-right-from-bracket"></i>
+                    Sair
+                </button>
+            </div>
+        </header>
 
-  return Math.ceil((date - today) / 86400000);
-}
+        <!-- CARDS DE ESTATÍSTICAS -->
+        <section class="stats">
+            <div class="card">
+                <div class="stat-label">Total de Produtos</div>
+                <div class="stat-value" id="statTotal">0</div>
+            </div>
 
-function getStatus(product) {
-  const days = daysUntil(product.expiry);
+            <div class="card">
+                <div class="stat-label">Abaixo do Mínimo</div>
+                <div class="stat-value" id="statLow">0</div>
+            </div>
 
-  if (days !== null && days <= 30) {
-    return {
-      text: days < 0 ? 'Vencido' : 'Vencendo',
-      class: 'expired'
-    };
-  }
+            <div class="card">
+                <div class="stat-label">Próximos do Vencimento</div>
+                <div class="stat-value" id="statExpiry">0</div>
+            </div>
 
-  if (product.quantity <= product.minStock) {
-    return {
-      text: 'Baixo',
-      class: 'low'
-    };
-  }
+            <div class="card">
+                <div class="stat-label">Valor do Estoque</div>
+                <div class="stat-value" id="statValue">R$ 0,00</div>
+            </div>
+        </section>
 
-  return {
-    text: 'Normal',
-    class: 'ok'
-  };
-}
+        <!-- CONTEÚDO PRINCIPAL -->
+        <section class="layout">
 
-function formatCurrency(value) {
-  return value.toLocaleString('pt-BR', {
-    style: 'currency',
-    currency: 'BRL'
-  });
-}
+            <!-- FORMULÁRIO -->
+            <div class="card">
+                <h3 class="section-title">Cadastro de Produto</h3>
 
-function render() {
-  const tbody = document.getElementById('productTable');
-  const search = document.getElementById('search').value.toLowerCase();
-  const filter = document.getElementById('filterStatus').value;
+                <div class="form-grid">
 
-  let filtered = products.filter(p => {
-    const text = `${p.name} ${p.category} ${p.supplier}`.toLowerCase();
-    return text.includes(search);
-  });
+                    <input type="hidden" id="productId">
 
-  if (filter !== 'all') {
-    filtered = filtered.filter(p => getStatus(p).class === filter);
-  }
+                    <input
+                        type="text"
+                        id="name"
+                        placeholder="Nome do produto"
+                    >
 
-  tbody.innerHTML = filtered.map(p => {
-    const status = getStatus(p);
+                    <div class="two-cols">
+                        <input
+                            type="text"
+                            id="category"
+                            placeholder="Categoria"
+                        >
 
-    return `
-      <tr>
-        <td>
-          <strong>${escapeHtml(p.name)}</strong><br>
-          <small style="color:#94a3b8">
-            ${escapeHtml(p.category || 'Sem categoria')}
-          </small>
-        </td>
-        <td>${p.quantity}</td>
-        <td>
-          <span class="badge ${status.class}">
-            ${status.text}
-          </span>
-        </td>
-        <td>${escapeHtml(p.supplier || '-')}</td>
-        <td>${formatCurrency(p.quantity * p.cost)}</td>
-        <td>
-          <button class="icon-btn" onclick="editProduct('${p.id}')">
-            <i class="fas fa-pen"></i>
-          </button>
-          <button class="icon-btn" onclick="deleteProduct('${p.id}')">
-            <i class="fas fa-trash"></i>
-          </button>
-        </td>
-      </tr>
-    `;
-  }).join('');
+                        <input
+                            type="text"
+                            id="barcode"
+                            placeholder="Código de barras"
+                        >
+                    </div>
 
-  updateStats();
-  updateAlerts();
-}
+                    <div class="two-cols">
+                        <input
+                            type="text"
+                            id="supplier"
+                            placeholder="Fornecedor"
+                        >
 
-function updateStats() {
-  const total = products.length;
+                        <input
+                            type="date"
+                            id="expiry"
+                        >
+                    </div>
 
-  const low = products.filter(
-    p => p.quantity <= p.minStock
-  ).length;
+                    <div class="two-cols">
+                        <input
+                            type="number"
+                            id="quantity"
+                            min="0"
+                            placeholder="Quantidade"
+                        >
 
-  const expiry = products.filter(p => {
-    const d = daysUntil(p.expiry);
-    return d !== null && d <= 30;
-  }).length;
+                        <input
+                            type="number"
+                            id="minStock"
+                            min="0"
+                            placeholder="Estoque mínimo"
+                        >
+                    </div>
 
-  const value = products.reduce(
-    (sum, p) => sum + (p.quantity * p.cost),
-    0
-  );
+                    <div class="two-cols">
+                        <input
+                            type="number"
+                            id="cost"
+                            min="0"
+                            step="0.01"
+                            placeholder="Custo unitário"
+                        >
 
-  document.getElementById('statTotal').textContent = total;
-  document.getElementById('statLow').textContent = low;
-  document.getElementById('statExpiry').textContent = expiry;
-  document.getElementById('statValue').textContent = formatCurrency(value);
-}
+                        <input
+                            type="number"
+                            id="price"
+                            min="0"
+                            step="0.01"
+                            placeholder="Preço de venda"
+                        >
+                    </div>
 
-function updateAlerts() {
-  const alerts = [];
+                    <button
+                        class="btn btn-success"
+                        onclick="saveProduct()"
+                    >
+                        <i class="fas fa-floppy-disk"></i>
+                        Salvar Produto
+                    </button>
+                </div>
 
-  const low = products.filter(
-    p => p.quantity <= p.minStock
-  ).length;
+                <!-- ALERTAS -->
+                <div id="alerts" class="alert-list"></div>
+            </div>
 
-  const exp = products.filter(p => {
-    const d = daysUntil(p.expiry);
-    return d !== null && d <= 30;
-  }).length;
+            <!-- LISTA DE PRODUTOS -->
+            <div class="card">
+                <div class="toolbar">
 
-  if (low > 0) {
-    alerts.push(`
-      <div class="alert warning">
-        ${low} produto(s) abaixo do estoque mínimo.
-      </div>
-    `);
-  }
+                    <input
+                        type="text"
+                        id="search"
+                        placeholder="Pesquisar por nome, categoria ou fornecedor"
+                    >
 
-  if (exp > 0) {
-    alerts.push(`
-      <div class="alert danger">
-        ${exp} produto(s) vencidos ou próximos do vencimento.
-      </div>
-    `);
-  }
+                    <select id="filterStatus">
+                        <option value="all">Todos</option>
+                        <option value="low">Abaixo do mínimo</option>
+                        <option value="expired">Vencendo em 30 dias</option>
+                    </select>
+                </div>
 
-  if (alerts.length === 0) {
-    alerts.push(`
-      <div class="alert success">
-        Nenhum alerta crítico no momento.
-      </div>
-    `);
-  }
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Produto</th>
+                                <th>Qtd</th>
+                                <th>Status</th>
+                                <th>Fornecedor</th>
+                                <th>Valor</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
 
-  document.getElementById('alerts').innerHTML = alerts.join('');
-}
+                        <tbody id="productTable">
+                            <!-- Preenchido pelo JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </section>
 
-function exportData() {
-  const blob = new Blob(
-    [JSON.stringify(products, null, 2)],
-    { type: 'application/json' }
-  );
-
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'estoque.json';
-  a.click();
-
-  URL.revokeObjectURL(a.href);
-}
-
-function escapeHtml(str) {
-  return String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
-}
-
-// Eventos
-document.getElementById('search').addEventListener('input', render);
-document.getElementById('filterStatus').addEventListener('change', render);
-
-document.getElementById('loginPass').addEventListener('keydown', e => {
-  if (e.key === 'Enter') {
-    login();
-  }
-});
-
-// Verifica se já está autenticado
-if (sessionStorage.getItem('stockmind-auth') === '1') {
-  showApp();
-}
-  </script>
+    <!-- Seu JavaScript -->
+    <script src="estoque.js"></script>
 </body>
 </html>
