@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockMind - Sistema Financeiro</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- CSS da página financeira -->
+    <link rel="stylesheet" href="financeiro.css">
+</head>
+<body>
+
+    <!-- ========================================= -->
+    <!-- TELA DE LOGIN -->
+    <!-- ========================================= -->
+    <section id="loginScreen" class="login-screen">
+        <div class="login-card">
+
+            <div class="brand">
+                <div class="brand-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+
+                <div>
+                    <h1>StockMind</h1>
+                    <p>Sistema Financeiro</p>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="loginUser">Usuário</label>
+                <input
+                    type="text"
+                    id="loginUser"
+                    placeholder="Digite seu usuário"
+                >
+            </div>
+
+            <div class="input-group">
+                <label for="loginPass">Senha</label>
+                <input
+                    type="password"
+                    id="loginPass"
+                    placeholder="Digite sua senha"
+                >
+            </div>
+
+            <button class="btn btn-primary" onclick="login()">
+                Entrar
+            </button>
+
+            <div id="loginError" class="error"></div>
+
+            <div class="login-hint">
+                Usuário: <strong>admin</strong> |
+                Senha: <strong>senha</strong>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================= -->
+    <!-- APLICAÇÃO -->
+    <!-- ========================================= -->
+    <section id="app" class="app hidden">
+
+        <!-- TOPO -->
+        <header class="topbar">
+            <div>
+                <h2>Sistema Financeiro</h2>
+                <p>Controle de receitas, despesas e fluxo de caixa.</p>
+            </div>
+
+            <div class="actions">
+                <button class="btn btn-secondary" onclick="exportData()">
+                    <i class="fas fa-file-export"></i>
+                    Exportar JSON
+                </button>
+
+                <button class="btn btn-danger" onclick="logout()">
+                    <i class="fas fa-right-from-bracket"></i>
+                    Sair
+                </button>
+            </div>
+        </header>
+
+        <!-- KPIs -->
+        <section class="stats">
+            <div class="card">
+                <div class="stat-label">Receita Total</div>
+                <div class="stat-value positive" id="statRevenue">R$ 0,00</div>
+            </div>
+
+            <div class="card">
+                <div class="stat-label">Despesas Totais</div>
+                <div class="stat-value negative" id="statExpenses">R$ 0,00</div>
+            </div>
+
+            <div class="card">
+                <div class="stat-label">Lucro Líquido</div>
+                <div class="stat-value" id="statProfit">R$ 0,00</div>
+            </div>
+
+            <div class="card">
+                <div class="stat-label">Margem de Lucro</div>
+                <div class="stat-value" id="statMargin">0%</div>
+            </div>
+        </section>
+
+        <!-- CONTEÚDO -->
+        <section class="layout">
+
+            <!-- FORMULÁRIO -->
+            <div class="card">
+                <h3 class="section-title">Novo Lançamento</h3>
+
+                <div class="form-grid">
+                    <input type="hidden" id="entryId">
+
+                    <select id="type">
+                        <option value="income">Receita</option>
+                        <option value="expense">Despesa</option>
+                    </select>
+
+                    <input
+                        type="text"
+                        id="description"
+                        placeholder="Descrição"
+                    >
+
+                    <input
+                        type="text"
+                        id="category"
+                        placeholder="Categoria"
+                    >
+
+                    <input
+                        type="number"
+                        id="amount"
+                        min="0"
+                        step="0.01"
+                        placeholder="Valor"
+                    >
+
+                    <input
+                        type="date"
+                        id="date"
+                    >
+
+                    <button
+                        class="btn btn-success"
+                        onclick="saveEntry()"
+                    >
+                        <i class="fas fa-floppy-disk"></i>
+                        Salvar Lançamento
+                    </button>
+                </div>
+
+                <div id="alerts" class="alert-list"></div>
+            </div>
+
+            <!-- TABELA -->
+            <div class="card">
+                <div class="toolbar">
+                    <input
+                        type="text"
+                        id="search"
+                        placeholder="Pesquisar por descrição ou categoria"
+                    >
+
+                    <select id="filterType">
+                        <option value="all">Todos</option>
+                        <option value="income">Receitas</option>
+                        <option value="expense">Despesas</option>
+                    </select>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Descrição</th>
+                                <th>Categoria</th>
+                                <th>Tipo</th>
+                                <th>Valor</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="entryTable">
+                            <!-- Preenchido via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </section>
+    </section>
+
+    <script src="financeiro.js"></script>
+</body>
+</html>
