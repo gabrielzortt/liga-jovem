@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StockMind | Dashboard Executivo</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Font Awesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="dark">
+
+  <!-- ================= SIDEBAR ================= -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <div class="logo-icon">
+          <i class="fas fa-boxes-stacked"></i>
+        </div>
+        <div class="logo-text">
+          <h1>StockMind</h1>
+          <span>Enterprise Suite</span>
+        </div>
+      </div>
+
+      <button class="sidebar-toggle" id="sidebarToggle">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-item active">
+        <i class="fas fa-chart-line"></i>
+        <span>Dashboard</span>
+      </a>
+
+      <a href="#" class="nav-item">
+        <i class="fas fa-warehouse"></i>
+        <span>Controle de Estoque</span>
+      </a>
+
+      <a href="#" class="nav-item">
+        <i class="fas fa-dollar-sign"></i>
+        <span>Financeiro</span>
+      </a>
+
+      <a href="#" class="nav-item">
+        <i class="fas fa-cart-shopping"></i>
+        <span>Compras Inteligentes</span>
+      </a>
+
+      <a href="#" class="nav-item">
+        <i class="fas fa-users"></i>
+        <span>Funcionários</span>
+      </a>
+
+      <a href="#" class="nav-item">
+        <i class="fas fa-file-lines"></i>
+        <span>Relatórios</span>
+      </a>
+
+      <a href="#" class="nav-item">
+        <i class="fas fa-bell"></i>
+        <span>Notificações</span>
+      </a>
+
+      <a href="#" class="nav-item">
+        <i class="fas fa-cloud-arrow-up"></i>
+        <span>Backup</span>
+      </a>
+
+      <a href="#" class="nav-item">
+        <i class="fas fa-shield-halved"></i>
+        <span>Logs do Sistema</span>
+      </a>
+
+      <a href="#" class="nav-item">
+        <i class="fas fa-file-import"></i>
+        <span>Importar/Exportar</span>
+      </a>
+
+      <a href="#" class="nav-item">
+        <i class="fas fa-filter"></i>
+        <span>Filtros Inteligentes</span>
+      </a>
+
+      <a href="#" class="nav-item">
+        <i class="fas fa-building"></i>
+        <span>Multiempresa</span>
+      </a>
+
+      <a href="#" class="nav-item">
+        <i class="fas fa-gear"></i>
+        <span>Configurações</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-card">
+        <div class="user-avatar">AD</div>
+        <div class="user-info">
+          <strong>Administrador</strong>
+          <span>Acesso Total</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ================= CONTEÚDO PRINCIPAL ================= -->
+  <main class="main-content">
+
+    <!-- HEADER -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <h2>Dashboard Executivo</h2>
+        <p>
+          Visão geral do estoque, finanças, desempenho operacional e
+          recomendações automáticas.
+        </p>
+      </div>
+
+      <div class="topbar-right">
+        <div class="search-box">
+          <i class="fas fa-search"></i>
+          <input
+            type="text"
+            placeholder="Pesquisar produtos, relatórios ou fornecedores"
+          />
+        </div>
+
+        <button class="icon-btn" id="themeToggle" title="Alternar tema">
+          <i class="fas fa-moon"></i>
+        </button>
+
+        <button class="icon-btn notification-btn" title="Notificações">
+          <i class="fas fa-bell"></i>
+          <span class="badge">0</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- ALERTAS -->
+    <section class="alerts-section">
+      <div class="alert alert-warning">
+        <i class="fas fa-triangle-exclamation"></i>
+        <span>
+          Alertas automáticos de estoque baixo serão exibidos aqui.
+        </span>
+      </div>
+
+      <div class="alert alert-danger">
+        <i class="fas fa-circle-xmark"></i>
+        <span>
+          Produtos próximos do vencimento aparecerão nesta área.
+        </span>
+      </div>
+
+      <div class="alert alert-success">
+        <i class="fas fa-circle-check"></i>
+        <span>
+          Informações sobre desempenho financeiro e metas serão exibidas aqui.
+        </span>
+      </div>
+    </section>
+
+    <!-- KPIs -->
+    <section class="kpi-grid">
+
+      <article class="kpi-card">
+        <div class="kpi-icon blue">
+          <i class="fas fa-boxes-stacked"></i>
+        </div>
+        <div class="kpi-content">
+          <span>Total de Produtos</span>
+          <h3>0</h3>
+          <small>Atualizado automaticamente</small>
+        </div>
+      </article>
+
+      <article class="kpi-card">
+        <div class="kpi-icon green">
+          <i class="fas fa-sack-dollar"></i>
+        </div>
+        <div class="kpi-content">
+          <span>Faturamento Mensal</span>
+          <h3>R$ 0,00</h3>
+          <small>Calculado automaticamente</small>
+        </div>
+      </article>
+
+      <article class="kpi-card">
+        <div class="kpi-icon emerald">
+          <i class="fas fa-chart-pie"></i>
+        </div>
+        <div class="kpi-content">
+          <span>Lucro Líquido</span>
+          <h3>R$ 0,00</h3>
+          <small>Atualizado em tempo real</small>
+        </div>
+      </article>
+
+      <article class="kpi-card">
+        <div class="kpi-icon orange">
+          <i class="fas fa-arrow-rotate-right"></i>
+        </div>
+        <div class="kpi-content">
+          <span>Giro de Estoque</span>
+          <h3>0x</h3>
+          <small>Baseado nas movimentações</small>
+        </div>
+      </article>
+
+      <article class="kpi-card">
+        <div class="kpi-icon red">
+          <i class="fas fa-triangle-exclamation"></i>
+        </div>
+        <div class="kpi-content">
+          <span>Produtos Sem Giro</span>
+          <h3>0</h3>
+          <small>Monitoramento automático</small>
+        </div>
+      </article>
+
+      <article class="kpi-card">
+        <div class="kpi-icon purple">
+          <i class="fas fa-cart-plus"></i>
+        </div>
+        <div class="kpi-content">
+          <span>Reposições Sugeridas</span>
+          <h3>0</h3>
+          <small>Gerado pelo sistema</small>
+        </div>
+      </article>
+
+    </section>
+
+    <!-- GRÁFICOS -->
+    <section class="charts-grid">
+
+      <div class="card chart-card large">
+        <div class="card-header">
+          <h3>Faturamento x Lucro</h3>
+          <span>Dados mensais</span>
+        </div>
+        <canvas id="revenueChart"></canvas>
+      </div>
+
+      <div class="card chart-card">
+        <div class="card-header">
+          <h3>Distribuição do Estoque</h3>
+          <span>Por categorias</span>
+        </div>
+        <canvas id="categoryChart"></canvas>
+      </div>
+
+      <div class="card chart-card">
+        <div class="card-header">
+          <h3>Status do Estoque</h3>
+          <span>Situação atual</span>
+        </div>
+        <canvas id="stockStatusChart"></canvas>
+      </div>
+
+    </section>
+
+    <!-- RECOMENDAÇÕES -->
+    <section class="recommendations-grid">
+
+      <div class="card recommendation-card">
+        <div class="card-header">
+          <h3>Recomendações Inteligentes</h3>
+          <span>Baseadas nos dados cadastrados</span>
+        </div>
+
+        <div class="recommendation-list">
+
+          <div class="recommendation-item warning">
+            <i class="fas fa-cart-plus"></i>
+            <div>
+              <strong>Sugestão de Reposição</strong>
+              <p>
+                Produtos com estoque abaixo do mínimo serão exibidos aqui.
+              </p>
+            </div>
+          </div>
+
+          <div class="recommendation-item danger">
+            <i class="fas fa-box-open"></i>
+            <div>
+              <strong>Excesso de Estoque</strong>
+              <p>
+                Itens com quantidade acima do ideal serão destacados aqui.
+              </p>
+            </div>
+          </div>
+
+          <div class="recommendation-item success">
+            <i class="fas fa-chart-line"></i>
+            <div>
+              <strong>Oportunidades de Crescimento</strong>
+              <p>
+                Categorias com maior rentabilidade aparecerão nesta seção.
+              </p>
+            </div>
+          </div>
+
+          <div class="recommendation-item info">
+            <i class="fas fa-percent"></i>
+            <div>
+              <strong>Produtos Sem Giro</strong>
+              <p>
+                Produtos com baixa movimentação serão listados aqui.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- RANKING -->
+      <div class="card ranking-card">
+        <div class="card-header">
+          <h3>Ranking de Produtos</h3>
+          <span>Gerado automaticamente</span>
+        </div>
+
+        <ul class="ranking-list">
+          <li>
+            <span class="rank">1</span>
+            <div class="rank-info">
+              <strong>Aguardando dados</strong>
+              <small>Os produtos mais movimentados aparecerão aqui</small>
+            </div>
+            <span class="rank-value">--</span>
+          </li>
+
+          <li>
+            <span class="rank">2</span>
+            <div class="rank-info">
+              <strong>Aguardando dados</strong>
+              <small>Os produtos mais movimentados aparecerão aqui</small>
+            </div>
+            <span class="rank-value">--</span>
+          </li>
+
+          <li>
+            <span class="rank">3</span>
+            <div class="rank-info">
+              <strong>Aguardando dados</strong>
+              <small>Os produtos mais movimentados aparecerão aqui</small>
+            </div>
+            <span class="rank-value">--</span>
+          </li>
+
+          <li>
+            <span class="rank">4</span>
+            <div class="rank-info">
+              <strong>Aguardando dados</strong>
+              <small>Os produtos mais movimentados aparecerão aqui</small>
+            </div>
+            <span class="rank-value">--</span>
+          </li>
+
+          <li>
+            <span class="rank">5</span>
+            <div class="rank-info">
+              <strong>Aguardando dados</strong>
+              <small>Os produtos mais movimentados aparecerão aqui</small>
+            </div>
+            <span class="rank-value">--</span>
+          </li>
+        </ul>
+      </div>
+
+    </section>
+
+    <!-- RODAPÉ -->
+    <footer class="footer">
+      <p>
+        © 2026 StockMind Enterprise Suite — Sistema de Gestão Inteligente de
+        Estoque, Compras e Finanças.
+      </p>
+    </footer>
+
+  </main>
+
+  <!-- JAVASCRIPT -->
+  <script src="script.js"></script>
+</body>
+</html>
