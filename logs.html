@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StockMind | Logs do Sistema</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="logs.css" />
+</head>
+<body>
+
+<section class="app">
+
+    <!-- HERO -->
+    <header class="hero">
+        <div class="hero-content">
+            <span class="hero-badge">
+                <i class="fas fa-terminal"></i>
+                Auditoria e Monitoramento
+            </span>
+
+            <h1>Logs do Sistema</h1>
+
+            <p>
+                Visualize eventos operacionais, avisos, erros e registros
+                de segurança em um painel centralizado.
+            </p>
+        </div>
+
+        <div class="hero-actions">
+            <button class="btn btn-glass" onclick="generateDemoLogs()">
+                <i class="fas fa-bolt"></i>
+                Gerar Logs
+            </button>
+
+            <button class="btn btn-danger" onclick="clearLogs()">
+                <i class="fas fa-trash"></i>
+                Limpar Logs
+            </button>
+        </div>
+    </header>
+
+    <!-- MÉTRICAS -->
+    <section class="metrics">
+        <article class="metric-card info">
+            <span class="metric-label">Informação</span>
+            <h3 id="statInfo">0</h3>
+            <p>Eventos operacionais</p>
+        </article>
+
+        <article class="metric-card warning">
+            <span class="metric-label">Avisos</span>
+            <h3 id="statWarning">0</h3>
+            <p>Situações de atenção</p>
+        </article>
+
+        <article class="metric-card error">
+            <span class="metric-label">Erros</span>
+            <h3 id="statError">0</h3>
+            <p>Falhas registradas</p>
+        </article>
+
+        <article class="metric-card security">
+            <span class="metric-label">Segurança</span>
+            <h3 id="statSecurity">0</h3>
+            <p>Eventos de auditoria</p>
+        </article>
+    </section>
+
+    <!-- WORKSPACE -->
+    <section class="workspace">
+
+        <!-- FILTROS -->
+        <aside class="filters-panel">
+            <div class="panel-header">
+                <span class="panel-label">Filtros</span>
+                <h2>Refinar Eventos</h2>
+                <p>
+                    Localize rapidamente registros específicos.
+                </p>
+            </div>
+
+            <div class="form-group">
+                <label for="search">Pesquisar</label>
+                <input
+                    type="text"
+                    id="search"
+                    placeholder="Digite palavras-chave"
+                />
+            </div>
+
+            <div class="form-group">
+                <label for="filterLevel">Nível</label>
+                <select id="filterLevel">
+                    <option value="all">Todos</option>
+                    <option value="info">Informação</option>
+                    <option value="warning">Aviso</option>
+                    <option value="error">Erro</option>
+                    <option value="security">Segurança</option>
+                </select>
+            </div>
+        </aside>
+
+        <!-- CONTEÚDO -->
+        <main class="content-area">
+
+            <!-- INSIGHT -->
+            <section class="insight-card">
+                <span class="insight-label">Resumo Executivo</span>
+                <h2 id="insightTitle">Nenhum log registrado.</h2>
+                <p id="insightText">
+                    O sistema exibirá automaticamente os eventos de auditoria.
+                </p>
+            </section>
+
+            <!-- LISTA -->
+            <section class="logs-section">
+                <div class="section-header">
+                    <h2>Timeline de Eventos</h2>
+                    <span id="logCount">0 registros</span>
+                </div>
+
+                <div id="logList" class="log-list">
+                    <!-- Preenchido via JavaScript -->
+                </div>
+            </section>
+
+        </main>
+    </section>
+</section>
+
+<script src="logs.js"></script>
+</body>
+</html>
