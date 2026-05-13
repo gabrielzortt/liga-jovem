@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StockMind | Central de Notificações</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="notificacoes.css" />
+</head>
+<body>
+
+    <!-- APP -->
+    <section class="app">
+
+        <!-- HERO -->
+        <header class="hero">
+            <div class="hero-content">
+                <span class="hero-badge">
+                    <i class="fas fa-bell"></i>
+                    Monitoramento Corporativo
+                </span>
+
+                <h1>Central de Notificações</h1>
+
+                <p>
+                    Acompanhe alertas críticos, avisos operacionais,
+                    mensagens informativas e eventos do sistema em
+                    tempo real.
+                </p>
+            </div>
+
+            <div class="hero-actions">
+                <button class="btn btn-glass" onclick="markAllAsRead()">
+                    <i class="fas fa-check-double"></i>
+                    Marcar Todas como Lidas
+                </button>
+
+                <button class="btn btn-glass" onclick="generateDemoNotifications()">
+                    <i class="fas fa-bolt"></i>
+                    Gerar Alertas
+                </button>
+
+                <button class="btn btn-danger" onclick="clearAllNotifications()">
+                    <i class="fas fa-trash"></i>
+                    Limpar Tudo
+                </button>
+            </div>
+        </header>
+
+        <!-- MÉTRICAS -->
+        <section class="metrics">
+            <article class="metric-card critical">
+                <span class="metric-label">Críticas</span>
+                <h3 id="statCritical">0</h3>
+                <p>Eventos que exigem ação imediata</p>
+            </article>
+
+            <article class="metric-card warning">
+                <span class="metric-label">Alertas</span>
+                <h3 id="statWarning">0</h3>
+                <p>Eventos operacionais importantes</p>
+            </article>
+
+            <article class="metric-card info">
+                <span class="metric-label">Informativas</span>
+                <h3 id="statInfo">0</h3>
+                <p>Mensagens gerais do sistema</p>
+            </article>
+
+            <article class="metric-card success">
+                <span class="metric-label">Não Lidas</span>
+                <h3 id="statUnread">0</h3>
+                <p>Notificações pendentes</p>
+            </article>
+        </section>
+
+        <!-- ÁREA PRINCIPAL -->
+        <section class="workspace">
+
+            <!-- FILTROS -->
+            <aside class="filters-panel">
+                <div class="panel-header">
+                    <span class="panel-label">Filtros</span>
+                    <h2>Refinar Visualização</h2>
+                    <p>
+                        Selecione critérios para localizar
+                        notificações específicas.
+                    </p>
+                </div>
+
+                <div class="form-group">
+                    <label for="search">Pesquisar</label>
+                    <input
+                        type="text"
+                        id="search"
+                        placeholder="Digite palavras-chave"
+                    />
+                </div>
+
+                <div class="form-group">
+                    <label for="filterType">Tipo</label>
+                    <select id="filterType">
+                        <option value="all">Todos</option>
+                        <option value="critical">Crítica</option>
+                        <option value="warning">Alerta</option>
+                        <option value="info">Informativa</option>
+                        <option value="success">Sucesso</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="filterStatus">Status</label>
+                    <select id="filterStatus">
+                        <option value="all">Todos</option>
+                        <option value="unread">Não lidas</option>
+                        <option value="read">Lidas</option>
+                    </select>
+                </div>
+            </aside>
+
+            <!-- CONTEÚDO -->
+            <main class="content-area">
+
+                <!-- INSIGHT -->
+                <section class="insight-card">
+                    <span class="insight-label">Resumo Executivo</span>
+                    <h2 id="insightTitle">
+                        Nenhuma notificação registrada.
+                    </h2>
+                    <p id="insightText">
+                        O sistema exibirá automaticamente alertas e
+                        mensagens operacionais.
+                    </p>
+                </section>
+
+                <!-- LISTA -->
+                <section class="notifications-section">
+                    <div class="section-header">
+                        <h2>Timeline de Notificações</h2>
+                        <span id="notificationCount">0 registros</span>
+                    </div>
+
+                    <div id="notificationList" class="notification-list">
+                        <!-- Preenchido via JavaScript -->
+                    </div>
+                </section>
+
+            </main>
+        </section>
+    </section>
+
+    <!-- JavaScript -->
+    <script src="notificacoes.js"></script>
+</body>
+</html>
