@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockMind - Compras Inteligentes</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="compras.css">
+</head>
+<body>
+
+    <!-- ========================================= -->
+    <!-- TELA DE LOGIN -->
+    <!-- ========================================= -->
+    <section id="loginScreen" class="login-screen">
+        <div class="login-card">
+
+            <div class="brand">
+                <div class="brand-icon">
+                    <i class="fas fa-cart-shopping"></i>
+                </div>
+
+                <div>
+                    <h1>StockMind</h1>
+                    <p>Compras Inteligentes</p>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="loginUser">Usuário</label>
+                <input
+                    type="text"
+                    id="loginUser"
+                    placeholder="Digite seu usuário"
+                >
+            </div>
+
+            <div class="input-group">
+                <label for="loginPass">Senha</label>
+                <input
+                    type="password"
+                    id="loginPass"
+                    placeholder="Digite sua senha"
+                >
+            </div>
+
+            <button class="btn btn-primary" onclick="login()">
+                Entrar
+            </button>
+
+            <div id="loginError" class="error"></div>
+
+            <div class="login-hint">
+                Usuário: <strong>admin</strong> |
+                Senha: <strong>senha</strong>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================= -->
+    <!-- APLICAÇÃO -->
+    <!-- ========================================= -->
+    <section id="app" class="app hidden">
+
+        <!-- TOPO -->
+        <header class="topbar">
+            <div>
+                <h2>Compras Inteligentes</h2>
+                <p>
+                    Análise automática de estoque para geração de
+                    recomendações de compra.
+                </p>
+            </div>
+
+            <div class="actions">
+                <button class="btn btn-secondary" onclick="reloadStock()">
+                    <i class="fas fa-rotate"></i>
+                    Atualizar Análise
+                </button>
+
+                <button class="btn btn-secondary" onclick="exportData()">
+                    <i class="fas fa-file-export"></i>
+                    Exportar JSON
+                </button>
+
+                <button class="btn btn-danger" onclick="logout()">
+                    <i class="fas fa-right-from-bracket"></i>
+                    Sair
+                </button>
+            </div>
+        </header>
+
+        <!-- KPIs -->
+        <section class="stats">
+            <div class="card">
+                <div class="stat-label">Itens para Comprar</div>
+                <div class="stat-value" id="statToBuy">0</div>
+            </div>
+
+            <div class="card">
+                <div class="stat-label">Urgência Alta</div>
+                <div class="stat-value" id="statUrgent">0</div>
+            </div>
+
+            <div class="card">
+                <div class="stat-label">Excesso de Estoque</div>
+                <div class="stat-value" id="statExcess">0</div>
+            </div>
+
+            <div class="card">
+                <div class="stat-label">Custo Estimado</div>
+                <div class="stat-value" id="statEstimatedCost">R$ 0,00</div>
+            </div>
+        </section>
+
+        <!-- ALERTAS E RECOMENDAÇÕES -->
+        <section class="layout">
+
+            <!-- PAINEL LATERAL -->
+            <div class="card">
+                <h3 class="section-title">Configurações de Análise</h3>
+
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label for="safetyFactor">
+                            Fator de Segurança
+                        </label>
+                        <input
+                            type="number"
+                            id="safetyFactor"
+                            min="1"
+                            step="0.1"
+                            value="2"
+                        >
+                    </div>
+
+                    <div class="input-group">
+                        <label for="urgentDays">
+                            Limite de Urgência (dias)
+                        </label>
+                        <input
+                            type="number"
+                            id="urgentDays"
+                            min="1"
+                            value="7"
+                        >
+                    </div>
+
+                    <button
+                        class="btn btn-success"
+                        onclick="applySettings()"
+                    >
+                        <i class="fas fa-sliders"></i>
+                        Aplicar Configurações
+                    </button>
+
+                    <button
+                        class="btn btn-secondary"
+                        onclick="openSettings()"
+                    >
+                        <i class="fas fa-gear"></i>
+                        Abrir Página de Configuração
+                    </button>
+                </div>
+
+                <div id="alerts" class="alert-list"></div>
+            </div>
+
+            <!-- LISTA DE RECOMENDAÇÕES -->
+            <div class="card">
+                <div class="toolbar">
+                    <input
+                        type="text"
+                        id="search"
+                        placeholder="Pesquisar produto ou categoria"
+                    >
+
+                    <select id="filterPriority">
+                        <option value="all">Todas as prioridades</option>
+                        <option value="critical">Crítica</option>
+                        <option value="high">Alta</option>
+                        <option value="normal">Normal</option>
+                        <option value="excess">Excesso</option>
+                    </select>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Produto</th>
+                                <th>Estoque Atual</th>
+                                <th>Mínimo</th>
+                                <th>Sugestão</th>
+                                <th>Prioridade</th>
+                                <th>Custo Estimado</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="recommendationTable">
+                            <!-- Preenchido via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- RESUMO EXECUTIVO -->
+        <section class="summary-grid">
+            <div class="card">
+                <h3 class="section-title">Resumo Executivo</h3>
+                <div id="executiveSummary" class="summary-content">
+                    Nenhuma análise disponível.
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="section-title">Observações do Sistema</h3>
+                <div id="systemInsights" class="summary-content">
+                    Aguardando dados do estoque.
+                </div>
+            </div>
+        </section>
+
+    </section>
+
+    <!-- JavaScript -->
+    <script src="compras.js"></script>
+</body>
+</html>
