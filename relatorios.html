@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockMind | Central de Relatórios</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="relatorios.css">
+</head>
+<body>
+
+    <!-- ========================================= -->
+    <!-- LOGIN -->
+    <!-- ========================================= -->
+    <section id="loginScreen" class="login-screen">
+        <div class="login-shell">
+            <div class="login-visual">
+                <div class="login-badge">
+                    <i class="fas fa-chart-line"></i>
+                    Business Intelligence
+                </div>
+
+                <h1>Central de Relatórios</h1>
+
+                <p>
+                    Gere relatórios estratégicos em PDF, Excel e JSON
+                    com dados integrados de estoque, finanças,
+                    compras e recursos humanos.
+                </p>
+
+                <div class="login-features">
+                    <span><i class="fas fa-file-pdf"></i> PDF</span>
+                    <span><i class="fas fa-file-excel"></i> Excel</span>
+                    <span><i class="fas fa-chart-pie"></i> Dashboards</span>
+                </div>
+            </div>
+
+            <div class="login-form">
+                <div class="brand-mini">
+                    <div class="brand-icon">
+                        <i class="fas fa-folder-open"></i>
+                    </div>
+                    <div>
+                        <strong>StockMind</strong>
+                        <span>Reporting Center</span>
+                    </div>
+                </div>
+
+                <h2>Acesso Seguro</h2>
+
+                <div class="form-group">
+                    <label for="loginUser">Usuário</label>
+                    <input
+                        type="text"
+                        id="loginUser"
+                        placeholder="Digite seu usuário"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="loginPass">Senha</label>
+                    <input
+                        type="password"
+                        id="loginPass"
+                        placeholder="Digite sua senha"
+                    >
+                </div>
+
+                <button class="btn btn-primary" onclick="login()">
+                    <i class="fas fa-lock"></i>
+                    Entrar no Centro de Relatórios
+                </button>
+
+                <div id="loginError" class="error"></div>
+
+                <p class="login-hint">
+                    Usuário: <strong>admin</strong> |
+                    Senha: <strong>senha</strong>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================= -->
+    <!-- APP -->
+    <!-- ========================================= -->
+    <section id="app" class="app hidden">
+
+        <!-- HERO -->
+        <header class="hero">
+            <div class="hero-content">
+                <span class="hero-tag">
+                    <i class="fas fa-sparkles"></i>
+                    Data & Analytics
+                </span>
+
+                <h1>Central Corporativa de Relatórios</h1>
+
+                <p>
+                    Consolide dados operacionais e gere relatórios
+                    executivos para apoiar decisões estratégicas.
+                </p>
+            </div>
+
+            <div class="hero-actions">
+                <button class="btn btn-glass" onclick="openSettings()">
+                    <i class="fas fa-gear"></i>
+                    Configurações
+                </button>
+
+                <button class="btn btn-danger" onclick="logout()">
+                    <i class="fas fa-right-from-bracket"></i>
+                    Sair
+                </button>
+            </div>
+        </header>
+
+        <!-- MÉTRICAS -->
+        <section class="metrics">
+            <article class="metric-card">
+                <span class="metric-kicker">Gerados Hoje</span>
+                <h3 id="statToday">0</h3>
+                <p>Relatórios emitidos nas últimas 24 horas</p>
+            </article>
+
+            <article class="metric-card">
+                <span class="metric-kicker">Este Mês</span>
+                <h3 id="statMonth">0</h3>
+                <p>Relatórios emitidos no período atual</p>
+            </article>
+
+            <article class="metric-card">
+                <span class="metric-kicker">Módulos Ativos</span>
+                <h3 id="statModules">5</h3>
+                <p>Fontes integradas ao sistema</p>
+            </article>
+
+            <article class="metric-card highlight">
+                <span class="metric-kicker">Última Exportação</span>
+                <h3 id="statLast">--</h3>
+                <p>Registro mais recente</p>
+            </article>
+        </section>
+
+        <!-- GRID PRINCIPAL -->
+        <section class="workspace">
+
+            <!-- PAINEL DE GERAÇÃO -->
+            <aside class="generator-panel">
+                <div class="panel-header">
+                    <span class="panel-label">Gerador</span>
+                    <h2>Novo Relatório</h2>
+                    <p>
+                        Selecione o módulo, período e formato de exportação.
+                    </p>
+                </div>
+
+                <div class="form-group">
+                    <label for="reportType">Tipo de Relatório</label>
+                    <select id="reportType">
+                        <option value="Estoque">Estoque</option>
+                        <option value="Financeiro">Financeiro</option>
+                        <option value="Compras Inteligentes">Compras Inteligentes</option>
+                        <option value="Funcionários">Funcionários</option>
+                        <option value="Auditoria">Auditoria</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="reportPeriod">Período</label>
+                    <select id="reportPeriod">
+                        <option value="Hoje">Hoje</option>
+                        <option value="Últimos 7 dias">Últimos 7 dias</option>
+                        <option value="Últimos 30 dias">Últimos 30 dias</option>
+                        <option value="Mês Atual">Mês Atual</option>
+                        <option value="Ano Atual">Ano Atual</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="reportFormat">Formato</label>
+                    <select id="reportFormat">
+                        <option value="PDF">PDF</option>
+                        <option value="Excel">Excel</option>
+                        <option value="JSON">JSON</option>
+                    </select>
+                </div>
+
+                <button class="btn btn-primary" onclick="generateReport()">
+                    <i class="fas fa-wand-magic-sparkles"></i>
+                    Gerar Relatório
+                </button>
+
+                <div id="alerts" class="alerts"></div>
+            </aside>
+
+            <!-- CONTEÚDO -->
+            <main class="content-area">
+
+                <!-- INSIGHT EXECUTIVO -->
+                <section class="executive-insight">
+                    <span class="insight-label">Insight Executivo</span>
+                    <h2 id="insightTitle">
+                        Ambiente pronto para consolidação de dados.
+                    </h2>
+                    <p id="insightText">
+                        Gere relatórios integrados e acompanhe o histórico
+                        de exportações em tempo real.
+                    </p>
+                </section>
+
+                <!-- FORMATOS -->
+                <section class="formats-grid">
+                    <article class="format-card pdf">
+                        <i class="fas fa-file-pdf"></i>
+                        <h3>PDF Executivo</h3>
+                        <p>Relatórios formatados para diretoria.</p>
+                    </article>
+
+                    <article class="format-card excel">
+                        <i class="fas fa-file-excel"></i>
+                        <h3>Excel Analítico</h3>
+                        <p>Planilhas com dados detalhados.</p>
+                    </article>
+
+                    <article class="format-card json">
+                        <i class="fas fa-code"></i>
+                        <h3>JSON Técnico</h3>
+                        <p>Integração e backup estruturado.</p>
+                    </article>
+                </section>
+
+                <!-- HISTÓRICO -->
+                <section class="history-section">
+                    <div class="section-header">
+                        <h2>Histórico de Relatórios</h2>
+                        <span id="historyCount">0 registros</span>
+                    </div>
+
+                    <div id="historyList" class="history-list">
+                        <!-- Preenchido via JavaScript -->
+                    </div>
+                </section>
+            </main>
+        </section>
+    </section>
+
+    <!-- JS -->
+    <script src="relatorios.js"></script>
+</body>
+</html>
