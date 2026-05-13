@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StockMind | Backup e Recuperação</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="backup.css" />
+</head>
+<body>
+
+<section class="app">
+
+    <!-- HERO -->
+    <header class="hero">
+        <div class="hero-content">
+            <span class="hero-badge">
+                <i class="fas fa-database"></i>
+                Segurança de Dados
+            </span>
+
+            <h1>Backup e Recuperação</h1>
+
+            <p>
+                Proteja todas as informações do sistema com backups completos,
+                restauração segura e histórico detalhado.
+            </p>
+        </div>
+
+        <div class="hero-actions">
+            <button class="btn btn-glass" onclick="createBackup()">
+                <i class="fas fa-download"></i>
+                Criar Backup
+            </button>
+
+            <button class="btn btn-glass" onclick="document.getElementById('restoreFile').click()">
+                <i class="fas fa-upload"></i>
+                Restaurar Backup
+            </button>
+
+            <button class="btn btn-danger" onclick="clearHistory()">
+                <i class="fas fa-trash"></i>
+                Limpar Histórico
+            </button>
+
+            <input
+                type="file"
+                id="restoreFile"
+                accept=".json"
+                hidden
+            />
+        </div>
+    </header>
+
+    <!-- MÉTRICAS -->
+    <section class="metrics">
+        <article class="metric-card">
+            <span class="metric-label">Total de Backups</span>
+            <h3 id="statTotal">0</h3>
+            <p>Backups registrados no sistema</p>
+        </article>
+
+        <article class="metric-card">
+            <span class="metric-label">Último Backup</span>
+            <h3 id="statLast">--</h3>
+            <p>Data da última operação</p>
+        </article>
+
+        <article class="metric-card">
+            <span class="metric-label">Tamanho Estimado</span>
+            <h3 id="statSize">0 KB</h3>
+            <p>Volume aproximado armazenado</p>
+        </article>
+
+        <article class="metric-card">
+            <span class="metric-label">Status</span>
+            <h3 id="statStatus">Seguro</h3>
+            <p>Integridade dos dados</p>
+        </article>
+    </section>
+
+    <!-- ÁREA PRINCIPAL -->
+    <section class="workspace">
+
+        <!-- PAINEL -->
+        <aside class="actions-panel">
+            <div class="panel-header">
+                <span class="panel-label">Ações</span>
+                <h2>Gerenciamento</h2>
+                <p>
+                    Execute rotinas de backup e restauração dos dados.
+                </p>
+            </div>
+
+            <button class="btn btn-primary" onclick="createBackup()">
+                <i class="fas fa-floppy-disk"></i>
+                Gerar Backup Completo
+            </button>
+
+            <button class="btn btn-primary" onclick="document.getElementById('restoreFile').click()">
+                <i class="fas fa-rotate-left"></i>
+                Restaurar Arquivo
+            </button>
+
+            <div id="alerts" class="alerts"></div>
+        </aside>
+
+        <!-- CONTEÚDO -->
+        <main class="content-area">
+
+            <!-- INSIGHT -->
+            <section class="insight-card">
+                <span class="insight-label">Resumo Executivo</span>
+                <h2 id="insightTitle">Nenhum backup registrado.</h2>
+                <p id="insightText">
+                    Recomenda-se criar backups periódicos para garantir
+                    a segurança das informações.
+                </p>
+            </section>
+
+            <!-- HISTÓRICO -->
+            <section class="history-section">
+                <div class="section-header">
+                    <h2>Histórico de Backups</h2>
+                    <span id="historyCount">0 registros</span>
+                </div>
+
+                <div id="historyList" class="history-list">
+                    <!-- Preenchido via JavaScript -->
+                </div>
+            </section>
+
+        </main>
+    </section>
+</section>
+
+<script src="backup.js"></script>
+</body>
+</html>
