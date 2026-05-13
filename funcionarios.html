@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>StockMind | Gestão de Funcionários</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="funcionarios.css">
+</head>
+<body>
+
+    <!-- ========================================= -->
+    <!-- LOGIN -->
+    <!-- ========================================= -->
+    <section id="loginScreen" class="login-screen">
+        <div class="login-panel">
+
+            <div class="login-background"></div>
+
+            <div class="login-content">
+                <div class="brand">
+                    <div class="brand-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+
+                    <div>
+                        <span class="brand-label">Módulo Corporativo</span>
+                        <h1>Gestão de Funcionários</h1>
+                        <p>
+                            Controle de acessos, permissões,
+                            auditoria e desempenho da equipe.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="loginUser">Usuário</label>
+                    <input
+                        type="text"
+                        id="loginUser"
+                        placeholder="Digite seu usuário"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="loginPass">Senha</label>
+                    <input
+                        type="password"
+                        id="loginPass"
+                        placeholder="Digite sua senha"
+                    >
+                </div>
+
+                <button class="btn btn-primary" onclick="login()">
+                    <i class="fas fa-shield-halved"></i>
+                    Acessar Painel
+                </button>
+
+                <div id="loginError" class="error"></div>
+
+                <div class="login-footer">
+                    Usuário: <strong>admin</strong> |
+                    Senha: <strong>senha</strong>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================= -->
+    <!-- APLICAÇÃO -->
+    <!-- ========================================= -->
+    <section id="app" class="app hidden">
+
+        <!-- HERO -->
+        <header class="hero">
+            <div class="hero-content">
+                <span class="hero-badge">
+                    <i class="fas fa-building-shield"></i>
+                    Recursos Humanos & Segurança
+                </span>
+
+                <h2>Centro de Gestão de Colaboradores</h2>
+
+                <p>
+                    Gerencie cargos, permissões, níveis de acesso,
+                    auditoria e status dos colaboradores em um
+                    ambiente corporativo integrado.
+                </p>
+            </div>
+
+            <div class="hero-actions">
+                <button class="btn btn-glass" onclick="exportData()">
+                    <i class="fas fa-file-export"></i>
+                    Exportar
+                </button>
+
+                <button class="btn btn-glass" onclick="openSettings()">
+                    <i class="fas fa-gear"></i>
+                    Configurações
+                </button>
+
+                <button class="btn btn-danger" onclick="logout()">
+                    <i class="fas fa-right-from-bracket"></i>
+                    Sair
+                </button>
+            </div>
+        </header>
+
+        <!-- KPI CARDS -->
+        <section class="metrics">
+            <article class="metric-card">
+                <div class="metric-icon gradient-blue">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div>
+                    <span class="metric-label">Total de Funcionários</span>
+                    <h3 id="statTotal">0</h3>
+                </div>
+            </article>
+
+            <article class="metric-card">
+                <div class="metric-icon gradient-green">
+                    <i class="fas fa-user-check"></i>
+                </div>
+                <div>
+                    <span class="metric-label">Ativos</span>
+                    <h3 id="statActive">0</h3>
+                </div>
+            </article>
+
+            <article class="metric-card">
+                <div class="metric-icon gradient-purple">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <div>
+                    <span class="metric-label">Administradores</span>
+                    <h3 id="statAdmins">0</h3>
+                </div>
+            </article>
+
+            <article class="metric-card">
+                <div class="metric-icon gradient-orange">
+                    <i class="fas fa-clipboard-list"></i>
+                </div>
+                <div>
+                    <span class="metric-label">Logs de Auditoria</span>
+                    <h3 id="statLogs">0</h3>
+                </div>
+            </article>
+        </section>
+
+        <!-- GRID PRINCIPAL -->
+        <section class="workspace">
+
+            <!-- FORMULÁRIO -->
+            <aside class="panel panel-form">
+                <div class="panel-header">
+                    <span class="panel-kicker">Cadastro</span>
+                    <h3>Novo Colaborador</h3>
+                </div>
+
+                <input type="hidden" id="employeeId">
+
+                <div class="form-grid">
+                    <input
+                        type="text"
+                        id="name"
+                        placeholder="Nome completo"
+                    >
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="E-mail corporativo"
+                    >
+
+                    <input
+                        type="text"
+                        id="position"
+                        placeholder="Cargo"
+                    >
+
+                    <input
+                        type="text"
+                        id="department"
+                        placeholder="Departamento"
+                    >
+
+                    <select id="accessLevel">
+                        <option value="Administrador">Administrador</option>
+                        <option value="Gerente">Gerente</option>
+                        <option value="Funcionário">Funcionário</option>
+                    </select>
+
+                    <select id="status">
+                        <option value="Ativo">Ativo</option>
+                        <option value="Férias">Férias</option>
+                        <option value="Afastado">Afastado</option>
+                        <option value="Desligado">Desligado</option>
+                    </select>
+
+                    <button
+                        class="btn btn-primary"
+                        onclick="saveEmployee()"
+                    >
+                        <i class="fas fa-floppy-disk"></i>
+                        Salvar Colaborador
+                    </button>
+                </div>
+
+                <div id="alerts" class="alerts"></div>
+            </aside>
+
+            <!-- CONTEÚDO -->
+            <main class="panel panel-main">
+
+                <div class="toolbar">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input
+                            type="text"
+                            id="search"
+                            placeholder="Pesquisar por nome, cargo ou setor"
+                        >
+                    </div>
+
+                    <select id="filterAccess">
+                        <option value="all">Todos os níveis</option>
+                        <option value="Administrador">Administrador</option>
+                        <option value="Gerente">Gerente</option>
+                        <option value="Funcionário">Funcionário</option>
+                    </select>
+                </div>
+
+                <!-- RESUMO EXECUTIVO -->
+                <section class="executive-banner">
+                    <div>
+                        <span class="banner-label">
+                            Indicador Estratégico
+                        </span>
+                        <h3 id="executiveTitle">
+                            Estrutura operacional sob controle.
+                        </h3>
+                        <p id="executiveText">
+                            Nenhum colaborador cadastrado.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- CARDS DE FUNCIONÁRIOS -->
+                <section id="employeeGrid" class="employee-grid">
+                    <!-- Preenchido pelo JavaScript -->
+                </section>
+
+                <!-- AUDITORIA -->
+                <section class="audit-section">
+                    <div class="section-head">
+                        <h3>Registro de Auditoria</h3>
+                        <span id="auditCount">0 eventos</span>
+                    </div>
+
+                    <div id="auditList" class="audit-list">
+                        <!-- Preenchido pelo JavaScript -->
+                    </div>
+                </section>
+
+            </main>
+        </section>
+    </section>
+
+    <!-- JS -->
+    <script src="funcionarios.js"></script>
+</body>
+</html>
