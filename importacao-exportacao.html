@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StockMind | Importação e Exportação</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="importacao-exportacao.css" />
+</head>
+<body>
+
+<section class="app">
+
+    <!-- HERO -->
+    <header class="hero">
+        <div class="hero-content">
+            <span class="hero-badge">
+                <i class="fas fa-file-arrow-up"></i>
+                Integração de Dados
+            </span>
+
+            <h1>Importação e Exportação</h1>
+
+            <p>
+                Importe e exporte dados do sistema em formatos
+                padronizados com total segurança e rastreabilidade.
+            </p>
+        </div>
+
+        <div class="hero-actions">
+            <button class="btn btn-glass" onclick="exportJSON()">
+                <i class="fas fa-file-code"></i>
+                Exportar JSON
+            </button>
+
+            <button class="btn btn-glass" onclick="exportCSV()">
+                <i class="fas fa-file-csv"></i>
+                Exportar CSV
+            </button>
+
+            <button class="btn btn-danger" onclick="clearHistory()">
+                <i class="fas fa-trash"></i>
+                Limpar Histórico
+            </button>
+        </div>
+    </header>
+
+    <!-- MÉTRICAS -->
+    <section class="metrics">
+        <article class="metric-card">
+            <span class="metric-label">Importações</span>
+            <h3 id="statImports">0</h3>
+            <p>Arquivos processados</p>
+        </article>
+
+        <article class="metric-card">
+            <span class="metric-label">Exportações</span>
+            <h3 id="statExports">0</h3>
+            <p>Arquivos gerados</p>
+        </article>
+
+        <article class="metric-card">
+            <span class="metric-label">Última Operação</span>
+            <h3 id="statLast">--</h3>
+            <p>Registro mais recente</p>
+        </article>
+
+        <article class="metric-card">
+            <span class="metric-label">Status</span>
+            <h3 id="statStatus">Ativo</h3>
+            <p>Centro de integração</p>
+        </article>
+    </section>
+
+    <!-- WORKSPACE -->
+    <section class="workspace">
+
+        <!-- PAINEL DE AÇÕES -->
+        <aside class="actions-panel">
+            <div class="panel-header">
+                <span class="panel-label">Ações</span>
+                <h2>Transferência de Dados</h2>
+                <p>
+                    Importe arquivos externos ou exporte dados
+                    consolidados do sistema.
+                </p>
+            </div>
+
+            <button class="btn btn-primary"
+                    onclick="document.getElementById('importFile').click()">
+                <i class="fas fa-upload"></i>
+                Importar Arquivo
+            </button>
+
+            <button class="btn btn-primary"
+                    onclick="exportJSON()">
+                <i class="fas fa-download"></i>
+                Exportar Backup Completo
+            </button>
+
+            <input
+                type="file"
+                id="importFile"
+                accept=".json,.csv"
+                hidden
+            />
+
+            <div id="alerts" class="alerts"></div>
+        </aside>
+
+        <!-- CONTEÚDO -->
+        <main class="content-area">
+
+            <!-- ÁREA DE UPLOAD -->
+            <section class="upload-zone"
+                     onclick="document.getElementById('importFile').click()">
+                <i class="fas fa-cloud-arrow-up"></i>
+                <h3>Arraste arquivos ou clique para selecionar</h3>
+                <p>Formatos suportados: JSON e CSV</p>
+            </section>
+
+            <!-- INSIGHT -->
+            <section class="insight-card">
+                <span class="insight-label">Resumo Executivo</span>
+                <h2 id="insightTitle">
+                    Nenhuma operação registrada.
+                </h2>
+                <p id="insightText">
+                    O histórico de importações e exportações será exibido aqui.
+                </p>
+            </section>
+
+            <!-- HISTÓRICO -->
+            <section class="history-section">
+                <div class="section-header">
+                    <h2>Histórico de Operações</h2>
+                    <span id="historyCount">0 registros</span>
+                </div>
+
+                <div id="historyList" class="history-list">
+                    <!-- Preenchido via JavaScript -->
+                </div>
+            </section>
+
+        </main>
+    </section>
+</section>
+
+<script src="importacao-exportacao.js"></script>
+</body>
+</html>
